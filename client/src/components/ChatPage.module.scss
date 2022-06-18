@@ -1,0 +1,26 @@
+.wrapper {
+  @apply text-center;
+  margin: 0 auto;
+  background-color: var(--dark-primary);
+  height: 28rem;
+  color: var(--primary-color);
+}
+
+.buttons {
+  @apply flex flex-col;
+  @apply items-center justify-center;
+  margin: 0 auto;
+}
+
+.roomButton, .sendMessageButton {
+  @apply rounded-3xl w-32 h-8;
+}
+
+.roomInput, .sendMessageInput {
+  width: 100%;
+  @apply w-full h-16;
+}
+
+.sendMessageInput {
+  @apply mt-12;
+}
