@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import style from './ChatPage.module.scss';
-import MessagesArea from './MessagesArea/MessagesArea';
+/* eslint-disable semi */
+import React, { useEffect, useState } from 'react'
+import io from 'socket.io-client'
+import style from './ChatPage.module.scss'
+import MessagesArea from './MessagesArea/MessagesArea'
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect('http://localhost:3001')
 
 function ChatPage() {
-  const [message, setMessage] = useState('');
-  const [messageReceived, setMessageReceived] = useState({});
-  const [room, setRoom] = useState('');
-  const [userConnected, setUserConnected] = useState('');
+  const [message, setMessage] = useState('')
+  const [messageReceived, setMessageReceived] = useState({})
+  const [room, setRoom] = useState('')
+  const [userConnected, setUserConnected] = useState('')
 
   const joinRoom = () => {
     if (room !== '') {
-      socket.emit('join_room', room);
+      socket.emit('join_room', room)
     }
-  };
+  }
 
   const getUserRoom = () => {
-    const roomFromLocalStorage = localStorage.getItem('userRoom');
-    return roomFromLocalStorage;
-  };
+    const roomFromLocalStorage = localStorage.getItem('userRoom')
+    return roomFromLocalStorage
+  }
 
   const setUserRoom = (userRoom) => {
     if (userRoom) {
-      setRoom(userRoom);
-      localStorage.setItem('userRoom', userRoom);
+      setRoom(userRoom)
+      localStorage.setItem('userRoom', userRoom)
     }
-  };
+  }
 
   const sendMessage = () => {
-    socket.emit('send_message', { message, room }); // envia um evento EMIT do tipo send_message para o backend
+    socket.emit('send_message', { message, room }) // envia um evento EMIT do tipo send_message para o backend
     // tambem envia a room que o usuario esta conectado
-  };
+  }
 
   useEffect(() => {
     socket.on('receive_message', (data) => { // recebe o evento do tipo receive_message do backend
@@ -41,13 +42,13 @@ function ChatPage() {
           message: data.message,
           room: data.room,
         },
-      );
-    });
+      )
+    })
 
     socket.on('receive_connect_message', (data) => {
-      setUserConnected(data.message);
-    });
-  }, [socket]);
+      setUserConnected(data.message)
+    })
+  }, [socket])
 
   return (
     <div className={style.wrapper}>
@@ -62,12 +63,13 @@ function ChatPage() {
           className={style.roomInput}
           placeholder="Room Number..."
           onChange={(event) => {
-            setUserRoom(event.target.value);
+            setUserRoom(event.target.value)
           }}
         />
         <button
           className={style.roomButton}
           onClick={joinRoom}
+          type="button"
         >
           Join Room
         </button>
@@ -75,18 +77,19 @@ function ChatPage() {
           className={style.sendMessageInput}
           placeholder="Message..."
           onChange={(event) => {
-            setMessage(event.target.value);
+            setMessage(event.target.value)
           }}
         />
         <button
           className={style.sendMessageButton}
           onClick={sendMessage}
+          type="button"
         >
           Send Message
         </button>
       </div>
     </div>
-  );
+  )
 }
 
-export default ChatPage;
+export default ChatPage
